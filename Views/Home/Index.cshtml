@@ -1,0 +1,30 @@
+﻿@{ 
+    ViewData["Title"] = "Homepage";
+}
+
+
+@model BooksViewModel
+
+
+
+<h1>Welcome to the Amazon Booklist</h1>
+
+@* Using razor code (for each), display the following information from the Bookstore DB: *@
+@foreach (Book x in Model.Books)
+{
+    <h3>@x.Title</h3>
+
+    <ul>
+        <li>Author: @x.Author</li>
+        <li>Publisher: @x.Publisher</li>
+        <li>ISBN: @x.ISBN</li>
+        <li>Category: @x.Category</li>
+        <li>Total Page # : @x.PageCount</li>
+        <li>Price : @x.Price</li>
+
+    </ul>
+
+    <br />
+}
+
+<div page-blah="@Model.PageInfo" page-action="Index"></div>
