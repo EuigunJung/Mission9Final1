@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     ViewData["Title"] = "Homepage";
 }
 
@@ -7,24 +7,28 @@
 
 
 
-<h1>Welcome to the Amazon Booklist</h1>
+<h1 class="p-3 mb-2 bg-warning text-dark">Welcome to the Booklist</h1>
 
 @* Using razor code (for each), display the following information from the Bookstore DB: *@
 @foreach (Book x in Model.Books)
 {
-    <h3>@x.Title</h3>
+<div class="p-3 mb-2 bg-info text-Black">
+    <div class="p-3 mb-2 bg-dark text-white">
+        <h3 class="p-3 mb-2 bg-gradient-info text-white">@x.Title</h3>
 
-    <ul>
-        <li>Author: @x.Author</li>
-        <li>Publisher: @x.Publisher</li>
-        <li>ISBN: @x.ISBN</li>
-        <li>Category: @x.Category</li>
-        <li>Total Page # : @x.PageCount</li>
-        <li>Price : @x.Price</li>
+        <ul>
+            <li>Author: @x.Author</li>
+            <li>Publisher: @x.Publisher</li>
+            <li>ISBN: @x.ISBN</li>
+            <li>Classification/Category: @x.Category</li>
+            <li>Number of Pages : @x.PageCount</li>
+            <li>Price : $@x.Price</li>
 
-    </ul>
-
-    <br />
+        </ul>
+        <br />
+    </div>
+</div>
 }
 
-<div page-blah="@Model.PageInfo" page-action="Index"></div>
+<div page-blah="@Model.PageInfo" page-action="Index" page-classes-enabled="true"
+     page-class-normal="btn-outline" page-class-selected="btn-primary" page-class="btn" class="btn-group-lg"></div>

@@ -20,7 +20,7 @@ namespace Mission7.Infrastructure
 
         private IUrlHelperFactory uhf;
 
-        public PaginationTagHelper (IUrlHelperFactory temp)
+        public PaginationTagHelper(IUrlHelperFactory temp)
         {
             uhf = temp;
         }
@@ -28,10 +28,17 @@ namespace Mission7.Infrastructure
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext vc { get; set; }
-        
+
         //Different than the View Context
         public PageInfo PageBlah { get; set; }
         public string PageAction { get; set; }
+
+        public bool PageClassesEnabled { get; set; }
+        public string PageClass { get; set; }
+
+        public string PageClassNormal { get; set; }
+        public string pageClassSelected { get; set; }
+
 
         public override void Process (TagHelperContext thc, TagHelperOutput tho)
         {
@@ -40,14 +47,23 @@ namespace Mission7.Infrastructure
             TagBuilder final = new TagBuilder("div");
 
             // loop to add a tag with a url and action.
-            for (int i = 1; i < PageBlah.TotalPages; i++)
+            for (int i = 1; i <= PageBlah.TotalPages; i++)
             {
                 TagBuilder tb = new TagBuilder("a");
                 // Add href attribute with action, page number 
                 tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = i });
                 tb.InnerHtml.Append(i.ToString());
-
                 final.InnerHtml.AppendHtml(tb);
+
+             // This is CSS Style tag
+
+                if (PageClassesEnabled)
+                {
+                    tb.AddCssClass(PageClass);
+                    tb.AddCssClass(i == PageBlah.CurrentPage
+                        ? pageClassSelected : PageClassNormal);
+                }
+
             }
             // add the final innerhtml in the "tagtaghelperoutput"
             tho.Content.AppendHtml(final.InnerHtml);
