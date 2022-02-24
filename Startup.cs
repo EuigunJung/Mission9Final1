@@ -36,6 +36,12 @@ namespace Mission7
            });
 
             services.AddScoped<IBookRepository, EFBookRepository>();
+
+            //Enabling Razor Pages
+            services.AddRazorPages();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,14 +55,39 @@ namespace Mission7
             //tell asp.net to use the static files in the wwwroot folder
             app.UseStaticFiles();
 
+            app.UseSession();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
+                //*Endpoint is executed in order. 
+                endpoints.MapControllerRoute("categorypage", "{bookCategory}/Page{pageNum}",
+                    new {Controller = "Home", action = "Index"});
+
+                //setting endpoint to display the pageNum only in the pattern parameter:
+
+                endpoints.MapControllerRoute(
+                name: "Paging",
+                pattern: "Page{pageNum}",
+                defaults: new { Controller = "Home", action = "Index", pageNum =1 });
+
+                endpoints.MapControllerRoute("category", "{bookCategory}",
+                    new { Controller = "Home", action = "Index", pageNum = 1 });
+
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+              
+
                 //to follow controller -> action -> ID
                 //This is different than other default settings, something like: pattern: "{controller:..}{Route:...}{id=?}"
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapRazorPages();
             });
+
+            
         }
     }
 }
