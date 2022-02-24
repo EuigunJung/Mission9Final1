@@ -33,9 +33,9 @@ namespace Mission7.Infrastructure
         public PageInfo PageBlah { get; set; }
         public string PageAction { get; set; }
 
+        public bool PageClassesEnabled { get; set; }
         public string PageClass { get; set; }
 
-        public bool PageClassesEnabled { get; set; }
         public string PageClassNormal { get; set; }
         public string pageClassSelected { get; set; }
 
@@ -52,15 +52,6 @@ namespace Mission7.Infrastructure
                 TagBuilder tb = new TagBuilder("a");
                 // Add href attribute with action, page number 
                 tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = i });
-
-                if(PageClassesEnabled)
-                {
-                    tb.AddCssClass(PageClass);
-                    tb.AddCssClass(i == PageBlah.CurrentPage ? pageClassSelected : PageClassNormal);
-
-                }
-
-                tb.AddCssClass(PageClass);
                 tb.InnerHtml.Append(i.ToString());
                 final.InnerHtml.AppendHtml(tb);
 
